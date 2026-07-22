@@ -1,0 +1,69 @@
+services:
+  nginx_k8s_service:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx_k8s_image
+    container_name: nginx_k8s_container
+    networks:
+      - k8s_network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/certs:/etc/nginx/ssl:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend_k8s_service
+      - backend_k8s_service
+    restart: unless-stopped
+
+  frontend_k8s_service:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: nextjs_k8s_image
+    container_name: nextjs_k8s_container
+    networks:
+      - k8s_network
+    expose:
+      - "4000"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
+
+  backend_k8s_service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: fastapi_k8s_image
+    container_name: fastapi_k8s_container
+    networks:
+      - k8s_network
+    expose:
+      - "3333"
+    restart: unless-stopped
+
+  redis_k8s_service:
+    image: redis:7-alpine
+    container_name: redis_k8s_container
+    command: redis-server --appendonly yes
+    networks:
+      - k8s_network
+    expose:
+      - "6379"
+    volumes:
+      - redis_k8s_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  k8s_network:
+    driver: bridge
+
+volumes:
+  redis_k8s_data:
