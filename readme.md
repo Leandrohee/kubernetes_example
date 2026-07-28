@@ -3,8 +3,14 @@
 kubectl apply -f k8s/nginx_deployment.yaml
 kubectl get pods
 kubectl get deployments
-
+kubectl get svc -n kube-system
+kubectl get pods -n kubernetes-example-homologacao
+kubectl get all -n kubernetes-example-homologacao
 kubectl delete deployment nginx-deployment
+kubectl delete namespace kubernetes-example-homologacao
+kubectl rollout restart deployment/nginx-deployment -n kubernetes-example-local
+kubectl apply -k k8s/base/
+kubectl kustomize k8s/homolog
 
 docker build -t nginx_k8s_image:latest ./nginx
 docker compose up --build -d
@@ -20,3 +26,20 @@ curl -ik https://localhost:443/user
 ```bash
 docker compose up --build -d
 ```
+
+
+# Helm vs kustomization
+
+### Helm
+```txt
+mychart/
+
+Chart.yaml
+
+values.yaml
+
+templates/
+    deployment.yaml
+    service.yaml
+```
+

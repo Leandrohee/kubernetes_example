@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+
+  - nginx/deployment.yaml
+  - nginx/service.yaml
+
+  - frontend/deployment.yaml
+  - frontend/service.yaml
+
+  - backend/deployment.yaml
+  - backend/service.yaml
+
+  # - redis/pvc.yaml
+  - redis/deployment.yaml
+  - redis/service.yaml
+
+
+# To run this Kustomization file:
+# kubectl apply -k k8s/base/

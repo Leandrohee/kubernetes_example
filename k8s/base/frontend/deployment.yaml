@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kubernetes-example-local
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-label
+  template:
+    metadata:
+      labels:
+        app: frontend-label
+    spec:
+      containers:
+      - name: frontend-k8s-container
+        image: frontend_k8s_image:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4000
+
+# Deployment is an workerload type stateless
+# This deploy a pod in my node 
+# It open the port 4000 on the container, but I need the service to be acessible to the outside world

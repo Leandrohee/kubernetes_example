@@ -1,5 +1,7 @@
 FROM nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+
+# Comentando os dois copy abaixos se for usar configMaps no Kubernetes
+COPY nginx.conf /etc/nginx/nginx.conf 
 COPY certs/ /etc/nginx/ssl/
 
 # Essas linhas abaixo são opcioanais, mas coloco para documentacao

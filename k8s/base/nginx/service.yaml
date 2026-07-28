@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: kubernetes-example-local
   name: nginx-service
 
 spec:
@@ -10,28 +11,37 @@ spec:
     app: nginx-label
 
   ports:
-  - port: 80
+  - name: http
+    port: 80
     targetPort: 80
     nodePort: 30080
+  
+  - name: https
+    port: 443
+    targetPort: 443
+    nodePort: 30443
+
 
 
 # This is a kubernetes service resource
+# 
+
 #[ External Client ]
 #            │
 #            │ Hits Node IP on nodePort
 #            ▼
 #┌───────────────────────────────┐
-#│  Node IP : 30080  (nodePort)  │  <-- Exposed on all Cluster Worker Nodes
+#│  Node IP : 30080  (nodePort)  │  
 #└───────────┬───────────────────┘
 #            │
 #            │ Forwards traffic to Service IP
 #            ▼
 #┌───────────────────────────────┐
-#│  Service IP : 80     (port)   │  <-- Cluster-internal Virtual IP
+#│  Service IP : 80     (port)   │ 
 #└───────────┬───────────────────┘
 #            │
 #            │ Routes to Pods matching selector (app=nginx)
 #            ▼
 #┌───────────────────────────────┐
 #│  Pod / Container : 80         │
-#│         (targetPort)          │  <-- Actual process listening inside container
+#│         (targetPort)          │ 

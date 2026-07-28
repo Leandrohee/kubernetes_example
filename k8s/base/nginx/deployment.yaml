@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  namespace: kubernetes-example-local
+  name: nginx-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx-label
@@ -13,12 +14,14 @@ spec:
         app: nginx-label
     spec:
       containers:
-      - name: nginx-container
+      - name: nginx-k8s-container
         image: nginx_k8s_image:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
+        - containerPort: 443
 
 # Deployment is an workerload type stateless
 # This deploy a pod in my node 
 # It open the port 80 on the container, but I need the service to be acessible to the outside world
+# It open the port 443 on the container, but I need the service to be acessible to the outside world

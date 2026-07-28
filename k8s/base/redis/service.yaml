@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kubernetes-example-local
+  name: redis-service
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app: redis-label
+
+  ports:
+  - name: next
+    port: 6379
+    targetPort: 6379

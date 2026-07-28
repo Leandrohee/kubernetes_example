@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kubernetes-example-local
+  name: backend-service
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app: backend-label
+
+  ports:
+  - name: next
+    port: 3333
+    targetPort: 3333
+
+
+
+# This is a kubernetes service resource
+# 
+
+# Internet
+#     │
+#     ▼
+# NodePort 30080
+#     │
+#     ▼
+# nginx-service (NodePort - external)
+#     │
+#     ▼
+# Nginx Pod
+#     │
+#     ▼
+# frontend-service (ClusterIp - internal)
+#     │
+#     ▼
+# Frontend Pod
+#     │
+#     ▼
+# Backend-service (ClusterIp - internal)
+#     │
+#     ▼
+# Backend Pod

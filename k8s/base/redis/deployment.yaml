@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kubernetes-example-local
+  name: redis-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-label
+  template:
+    metadata:
+      labels:
+        app: redis-label
+    spec:
+      containers:
+      - name: redis-k8s-container
+        image: redis:8.6-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379

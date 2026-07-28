@@ -14,9 +14,8 @@ load_wich_env = import_module("app.utils.load-which-env").load_which_env
 load_wich_env()
 logger.info(f'ENV USADO: {os.getenv("ENV_USADO")}')
 
+
 # --------------------------------------------- REDIS -------------------------------------------- #
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.redis = redis.from_url(
@@ -34,7 +33,8 @@ async def lifespan(app: FastAPI):
 
 
 # ----------------------------------------- FASTAPI INIT ----------------------------------------- #
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan)  # with Redis
+# app = FastAPI()  # without Redis
 
 # --------------------------------------------- CORS --------------------------------------------- #
 app.add_middleware(

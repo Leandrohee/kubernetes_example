@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kubernetes-example-local
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-label
+  template:
+    metadata:
+      labels:
+        app: backend-label
+    spec:
+      containers:
+      - name: backend-k8s-container
+        image: backend_k8s_image:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3333
+
+# Deployment is an workerload type stateless
+# This deploy a pod in my node 
+# It open the port 3333 on the container, but I need the service to be acessible to the outside world
