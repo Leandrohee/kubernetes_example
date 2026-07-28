@@ -27,19 +27,19 @@ curl -ik https://localhost:443/user
 docker compose up --build -d
 ```
 
+# Como rodar esse projeto - branch 01_kustomization
+```bash
+# Rebuild all the images
+./rebuild_images.sh
 
-# Helm vs kustomization
+# Select option 4 - ALL
 
-### Helm
-```txt
-mychart/
+# Start project or restart resources
+kubectl apply -k k8s/base/
+./restart_resources.sh
 
-Chart.yaml
-
-values.yaml
-
-templates/
-    deployment.yaml
-    service.yaml
+# Delete project
+Kubectl delete -k k8s/base/
 ```
+
 
