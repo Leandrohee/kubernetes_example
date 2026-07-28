@@ -4,10 +4,10 @@ kubectl apply -f k8s/nginx_deployment.yaml
 kubectl get pods
 kubectl get deployments
 kubectl get svc -n kube-system
-kubectl get pods -n kubernetes-example-homologacao
-kubectl get all -n kubernetes-example-homologacao
+kubectl get pods -n kubernetes-example-local
+kubectl get all -n kubernetes-example-local
 kubectl delete deployment nginx-deployment
-kubectl delete namespace kubernetes-example-homologacao
+kubectl delete namespace kubernetes-example-local
 kubectl rollout restart deployment/nginx-deployment -n kubernetes-example-local
 kubectl apply -k k8s/base/
 kubectl kustomize k8s/homolog
